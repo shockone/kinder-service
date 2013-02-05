@@ -1,0 +1,46 @@
+!!!
+%html
+  %head
+    %title= title @page_title
+    == <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    = stylesheet_link_tag    'application', :media => "all"
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+  %body
+    #header
+      = link_to  image_tag('stork.png'), root_path, class: 'contains-image'
+      -#= link_to  'asdofjkopIHDJFOPUIERFHN', root_path, class: 'contains-image'
+    - if flash[:notice]
+      .notice= flash[:notice]
+    - if flash[:alert]
+      .alert= flash[:alert]
+    = render 'shared/contacts'
+    #user
+      - if user_signed_in?
+        = link_to (current_user.name || current_user.email), edit_user_registration_path
+        = link_to 'Вийти', destroy_user_session_path, method: :delete
+        -if current_user.admin?
+          #admin-panel
+            =link_to 'Список замовлень', orders_path
+            %br=link_to 'Добавити товар', new_item_path
+            =link_to 'Редагувати категорії', categories_path
+            %br=link_to 'Баннери', banners_path
+      - else
+        .popbox
+          = link_to 'Вхід і реєстрація', '#', class: 'open'
+          .collapse
+            .box
+              .arrow
+              .arrow-border
+              = render 'shared/auth'
+    #nav
+      = render 'shared/navigation'
+    = render 'shared/cart' unless current_page?(new_order_path)
+    - if current_page? root_path
+      #banner
+        - get_banners.each do |banner|
+          -#= image_tag banner.image
+          %img(src="#{banner.image}" alt='banner')
+    #main= yield
+    #footer © 2009 — 2012 Інтернет магазин «Kinder Service»
+    %address#author Володимир Шацький, shockone89@gmail.com

@@ -1,0 +1,47 @@
+.popbox {
+  margin:0px auto;
+  position:relative;
+
+  .collapse { position:relative; }
+  .box {
+    padding: 1em;
+    input[type='email'], input[type='password'] {
+      width: 100%;
+    }
+    button {
+      margin-top: 1em;
+    }
+
+    display:block;
+    display:none;
+    background:#FFF;
+    border:solid 1px #BBBBBB;
+    border-radius:2px;
+    box-shadow: 0 0 5px #BDC4B4;
+    position:absolute;
+    .arrow {
+      width: 0;
+      height: 0;
+      border-left: 11px solid transparent;
+      border-right: 11px solid transparent;
+      border-bottom: 11px solid #FFF;
+      position:absolute;
+      //left:1px;
+      top:-10px;
+      z-index:1001;
+    }
+
+    .arrow-border {
+      width: 0;
+      height: 0;
+      border-left: 11px solid transparent;
+      border-right: 11px solid transparent;
+      border-bottom: 11px solid #BBBBBB;
+      position:absolute;
+      top:-12px;
+      z-index:1000;
+    }
+  }
+}
+
+

@@ -1,0 +1,16 @@
+- if controller_name != 'sessions'
+  = link_to "Увійти", new_session_path(resource_name)
+  %br/
+- if devise_mapping.registerable? && controller_name != 'registrations'
+  = link_to "Зареєструватись", new_registration_path(resource_name)
+  %br/
+- if devise_mapping.recoverable? && controller_name != 'passwords'
+  = link_to "Забули пароль?", new_password_path(resource_name)
+  %br/
+- if devise_mapping.confirmable? && controller_name != 'confirmations'
+  = link_to "Не прийшли інструкції для підтвердження?", new_confirmation_path(resource_name)
+  %br/
+- if devise_mapping.omniauthable?
+  - resource_class.omniauth_providers.each do |provider|
+    = link_to "Sign in with #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider)
+    %br/

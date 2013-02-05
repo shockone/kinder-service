@@ -1,0 +1,19 @@
+-sum = 0
+#cart
+  %h2 Корзина
+  %table
+    %tbody
+      -cart_items_with_amount.each do |item, count|
+        %tr
+          %td= link_to '×', remove_from_cart_path(item_id: item.id), method: :delete, remote: true
+          %td= link_to item.name, item
+          %td="#{(count.to_s + '×') if count > 1}#{number_with_precision item.price, precision: 2}"
+          -sum += count * item.price
+    %tfoot
+      %tr
+        %td
+          -if not get_cart.items.empty?
+            = link_to '×', clear_cart_path, method: :delete, data: { confirm: 'Видалити всі товари з корзини?' }, remote: true
+        %td Всього:
+        %td= number_with_precision sum, precision: 2
+  #checkout=button_to 'Оформити замовлення', new_order_path, disabled: get_cart.items.empty?, method: :get

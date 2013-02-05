@@ -1,0 +1,52 @@
+= form_for @item do |f|
+  - if @item.errors.any?
+    #error_explanation
+      -#%h2= "#{pluralize(@item.errors.count, "error")} prohibited this item from being saved:"
+      %ul
+        - @item.errors.full_messages.each do |msg|
+          %li= msg
+
+  -##drop-box
+  = f.text_field :name, placeholder: 'Назва'
+  %br
+  = f.text_area :description, placeholder: 'Описання'
+  %table
+    %tbody
+    %tr
+      %td= f.label :image, 'Зображення'
+      %td= f.file_field :image
+    %tr
+      %td= f.label :price, 'Ціна'
+      %td
+        = f.text_field :price, autocomplete: :off
+        грн.
+    %tr
+      %td
+      %td
+        = f.check_box :special_offer
+        = f.label :special_offer, 'Акція'
+    %tr
+      %td= f.label 'Категорія'
+      %td= f.collection_select :category_id, Category.all, :id, :name, :prompt => 'не вибрана'
+    %tr
+      %td
+      %td= f.submit 'Зберегти'
+-#:javascript
+-#  var holder = document.getElementById('drop-box');
+-#
+-#  holder.ondragover = function () { this.className = 'hover'; return false; };
+-#  holder.ondragend = function () { this.className = ''; return false; };
+-#  holder.ondragleave = function () { this.className = ''; return false; };
+-#  holder.ondrop = function (e) {
+-#    this.className = '';
+-#    e.preventDefault();
+-#
+-#    var file = e.dataTransfer.files[0], reader = new FileReader();
+-#    reader.onload = function (event) {
+-#      holder.style.background = 'url(' + event.target.result + ') no-repeat center';
+-#    };
+-#    console.log(file);
+-#    reader.readAsDataURL(file);
+-#
+-#    return false;
+-#  };

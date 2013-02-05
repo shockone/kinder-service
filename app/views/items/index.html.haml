@@ -1,0 +1,21 @@
+#previews-holder
+  %p.sort
+    Сортувати
+    = sortable_link 'price', 'за ціною'
+    або
+    = sortable_link 'name', 'по алфавіту'
+  #search
+    =form_tag items_path, method: :get do
+      =search_field_tag :query, params[:query], placeholder: 'Пошук'
+      =submit_tag 'Знайти', name: nil
+  -if @items.empty?
+    #empty-page
+      -if params[:query]
+        Нажаль, ми нічого не знайшли.
+      -else
+        В цьому розділі поки що нічого немає.
+      =link_to 'Повернутись назад?', :back
+  -else
+    - @items.each do |item|
+      = render 'shared/item', item: item
+    =will_paginate @items, :previous_label => '← Попередня', :next_label => 'Наступна →'

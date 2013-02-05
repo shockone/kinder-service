@@ -1,0 +1,44 @@
+%div{style: 'text-align: center;'}
+  = form_for @category do |f|
+    = f.label :name, 'Нова категорія'
+    = f.text_field :name
+    %span.error=@category.errors.full_messages.first
+    = f.submit 'Добавити', name: 'commit'
+
+  -all_categories
+  =button_to 'Зберегти', new_category_path, remote: true, id: 'submit', name: 'commit'
+
+:javascript
+  $(document).ready(function(){
+      $('ul.sortable').nestedSortable({
+         handle: 'div',
+         items: 'li',
+         tolerance: 'pointer',
+         toleranceElement: '> div',
+         listType: 'ul'
+      });
+
+      $('#submit').click(function(e){
+          result = $.map($('ul.sortable').nestedSortable('toArray'), function (value, index){
+             if (value.item_id){
+               var newValue = new Object();
+               newValue.id = parseInt(value.item_id);
+               newValue.parent_id = parseInt(value.parent_id);
+               newValue.lft = value.left - 1;
+               newValue.rgt = value.right - 1;
+             }
+             return newValue;
+           });
+           console.log(JSON.stringify(result));
+          $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "/categories",
+            data: JSON.stringify(result),
+            success: function () {
+              $('#submit').prop('value', 'Збережено!');
+            }
+          });
+          e.preventDefault();
+      });
+  });

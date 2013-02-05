@@ -1,0 +1,44 @@
+%h2 Персональна інформація
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  %table
+    %tbody
+      - if resource.provider.blank?
+        %tr
+          %td= f.label :email, 'Email'
+          %td
+            = f.email_field :email
+            .error=resource.errors.full_messages_for(:email).first
+      %tr
+        %td= f.label :phone, 'Телефон'
+        %td
+          = f.phone_field :phone
+          .error=resource.errors.full_messages_for(:phone).first
+      %tr
+        %td= f.label :address, 'Адреса доставки'
+        %td
+          = f.text_area :address, rows: '2'
+          .error=resource.errors.full_messages_for(:address).first
+      - if resource.provider.blank?
+        %tr
+          %td= f.label :current_password, 'Пароль'
+          %td
+            = f.password_field :current_password
+            .error=resource.errors.full_messages_for(:current_password).first
+  - if resource.provider.blank?
+    %table#password-related
+      %tbody
+        %tr
+          %td= f.label :password, 'Новий пароль'
+          %td
+            = f.password_field :password
+            .error=resource.errors.full_messages_for(:password).first
+        %tr
+          %td= f.label :password_confirmation, 'Ще раз'
+          %td= f.password_field :password_confirmation
+  %p= f.submit 'Зберегти'
+  %br
+  %br
+  =link_to 'Видалити акаунт',
+   registration_path(resource_name),
+   data: { confirm: 'Ви впевнені? Ми не зможемо відновити ваш акаунт.' },
+   method: :delete

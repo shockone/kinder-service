@@ -1,0 +1,16 @@
+= form_tag user_session_path do
+  = email_field_tag 'user[email]', nil, placeholder: 'Email'
+  = password_field_tag 'user[password]', nil, placeholder: 'Пароль'
+  %div
+    = check_box_tag 'user[remember_me]', 'yes', true
+    = label_tag 'user[remember_me]', 'Запам’ятати'
+  .centered
+    %button Увійти
+    %pВхід через соціальні мережі:
+    = link_to  image_tag('vkontakte.png'), user_omniauth_authorize_path(:vkontakte), class: 'contains-image'
+    = link_to  image_tag('twitter.png'), user_omniauth_authorize_path(:twitter), class: 'contains-image'
+    = link_to  image_tag('facebook.png'), user_omniauth_authorize_path(:facebook), class: 'contains-image'
+  %br
+  = link_to 'Реєстрація', new_registration_path('user')
+  %br
+  = link_to 'Забули пароль?', new_password_path('user')

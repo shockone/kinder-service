@@ -1,0 +1,77 @@
+-sum = 0
+%h1 Замовлення
+#checkout
+  = form_for @order do |f|
+    %table#bought-items
+      %tbody
+        = f.fields_for :cart_items do |cart_item|
+          =cart_item.fields_for :item do |item|
+            %tr
+              %td= link_to image_tag(item.object.image), item.object, class: 'contains-image'
+              %td
+                = link_to item.object.name, item.object
+                %p.item-description= truncate item.object.description, length: 200
+              %td=cart_item.text_field :amount, class: "amount-field #{discount_class item.object}",
+                onkeyup: 'recalculateTotal()', onmouseup: 'recalculateTotal()',
+                 data: {price: (item.object.price * 100).to_i}
+              %td
+                %span шт. по
+              %td
+                %span= number_to_currency item.object.price
+              -sum += cart_item.object.amount * item.object.price
+        %tr
+          %td
+          %td
+            Знижка (<span class="red">*</span>не нараховується на акційні товари та дитяче харчування)
+            %br
+            %span.additional-information 310 грн. — 3%, 530 грн. — 5%.
+          %td
+          %td
+          %td#discount 0%
+        %tr
+          %td
+          %td
+            %spanДоставка (безкоштовна при замовленні на суму від 100 гривень)
+            .additional-informationЯкщо ви живете за містом, наш менеджер уточнить вартість доставки по телефону.
+          %td
+          %td
+          %td#shipping-price 5,00 грн.
+      %tfoot
+        %tr
+          %td
+          %td
+          %td
+          %td Всього
+          %td#total=number_to_currency sum, precision: 2
+    %table#user-information
+      %tbody
+        %tr
+          %td= f.label :phone, 'Номер телефону'
+          %td
+            = f.phone_field :phone
+            .error=@order.errors.full_messages_for(:phone).first
+        %tr
+          %td= f.label :address, 'Адреса доставки'
+          %td
+            = f.text_area :address, rows: 3
+            .error=@order.errors.full_messages_for(:address).first
+        %tr
+          %td= f.label :comment, 'Коментарій'
+          %td= f.text_area :comment, placeholder: 'Наприклад «Дзвоніть, будь-ласка, не пізніше 15:00. Ви можете залишити це поле пустим.»', rows: 7
+
+    #buy=f.submit 'Замовити'
+%h2 Оплата і доставка
+%p
+  Ви можете оплатити замовлення кур’єру після отримання товару або передплатити через картковий рахунок
+  (деталі за телефонами, вказаними в шапці сайту). Якщо у вас немає доступу в інтернет, можна зробити замовлення по телефону —
+  з 8:00 до 20:00 щодня, крім неділі.
+%p
+  Доставка в межах Тернополя безкоштовна, якщо ви купили на 100 грн або більше, та 5 грн при покупці на меншу суму.
+  Вартість доставки по області залежить від віддаленості населеного пункту та суми замовлення — наш менеджер
+  уточнить деталі по телефону; ціну по Україні встановлює компанія перевізник.
+%p
+  Термін доставки по Тернополю і прилеглих селах від 2 до 24 годин, по Україні 2—5 днів.
+:javascript
+  $(document).ready(function(){
+     recalculateTotal();
+  });

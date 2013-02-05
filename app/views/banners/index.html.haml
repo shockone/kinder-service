@@ -1,0 +1,15 @@
+%h1= @page_title
+
+
+
+%table
+  - @banners.each do |banner|
+    %p
+      = image_tag banner.image
+      = link_to 'Змінити', edit_banner_path(banner)
+      ,
+      = link_to 'Видалити', banner, method: :delete, data: { confirm: 'Ви впевнені?' }
+
+%br
+
+.centered= button_to 'Новий баннер', new_banner_path, method: :get

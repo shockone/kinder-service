@@ -1,0 +1,17 @@
+%h2 Змініть свій пароль
+= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
+  = f.hidden_field :reset_password_token
+  %table
+    %tbody
+      %tr
+        %td= f.label :password, 'Новий пароль'
+        %td
+          = f.password_field :password
+          .error=resource.errors.full_messages_for(:password).first
+      %tr
+        %td= f.label :password_confirmation, 'Підтвердження'
+        %td= f.password_field :password_confirmation
+      %tr
+        %td
+          %br
+        %td= f.submit 'Змінити пароль'

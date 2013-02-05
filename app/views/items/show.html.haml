@@ -1,0 +1,16 @@
+.item
+  %h1= @item.name
+  #left-column
+    = image_tag @item.image.url, alt: @item.name
+    #button-wrapper
+      = link_to 'Купити', add_to_cart_path(item_id: @item.id), remote: true, method: :post, id: 'buy-button'
+      -if user_signed_in? and current_user.admin?
+        .admin-action
+          = link_to 'Редагувати', edit_item_path(@item)
+          = link_to 'Видалити', item_path(@item), method: :delete, data: { confirm: "Видалити #{@item.name}?" }
+  #right-column
+    %p= simple_format @item.description
+:css
+  #buy-button::before {
+    content: "#{number_to_currency @item.price}";
+  }

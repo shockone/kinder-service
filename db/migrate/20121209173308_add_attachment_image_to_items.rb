@@ -1,0 +1,13 @@
+class AddAttachmentImageToItems < ActiveRecord::Migration
+  def self.up
+    change_table :items do |t|
+      t.remove :image
+      t.has_attached_file :image
+    end
+  end
+
+  def self.down
+    drop_attached_file :items, :image
+    add_column :items, :image, :string
+  end
+end

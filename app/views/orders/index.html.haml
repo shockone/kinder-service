@@ -1,0 +1,45 @@
+%h1= @page_title
+%p#archive=link_to 'Перейти в архів', orders_archive_path
+%p.sort
+  Сортувати по
+  = sortable_link 'total', 'сумі'
+  або по
+  = sortable_link 'created_at', 'даті створення'
+#orders-holder
+  - @orders.each do |order|
+    .order
+      .user-information
+        .maps-marker
+          = link_to image_tag('google-maps.png'),
+            "http://maps.google.com/?q=Україна Тернопіль #{order.address}", class: 'contains-image'
+        %h3=order.address
+        %span.date=l order.created_at, format: :long
+        %br
+        %span.phone
+          %h3=order.phone
+        - if order.comment.present?
+          .comment="«#{order.comment}»"
+      %table
+        %tbody
+          -order.cart_items.each do |cart_item|
+            %tr
+              %td=cart_item.item.name
+              %td
+                -title = "#{cart_item.amount} × #{cart_item.item.price} = #{cart_item.item.price * cart_item.amount}"
+                %span(title=title)=cart_item.amount
+              %td=number_to_currency cart_item.item.price
+          %tr
+            %tdЗнижка
+            %td
+            %td=@orders_discount[order.id][:percent].to_s + '%'
+          %tr
+            %tdДоставка
+            %td
+            %td=order.total >= 100 ? 'безкоштовна' : '5 грн.'
+        %tfoot
+          %tr
+            %td
+            %td
+            %td.total=number_to_currency (order.total - @orders_discount[order.id][:value] + (order.total >= 100 ? 0 : 5))
+      #completed=button_to 'Виконано!', complete_order_path(order)
+  =will_paginate @items, :previous_label => '← Попередня', :next_label => 'Наступна →'

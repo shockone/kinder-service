@@ -1,0 +1,18 @@
+- cache item do
+  .item-preview
+    = link_to item, class: 'contains-image' do
+      .image-holder
+        =image_tag(item.image)
+        -if item.in_latests?
+          .flag=image_tag 'new.png'
+        -if item.special_offer
+          -if item.in_latests?
+            .flag{style: 'top: 16px'}=image_tag 'sale.png'
+          -else
+            .flag=image_tag 'sale.png'
+
+    .item-description
+      %p= link_to item.name, item
+      .price
+        = number_to_currency item.price
+        = button_to 'Купити', add_to_cart_path(item_id: item.id), remote: true

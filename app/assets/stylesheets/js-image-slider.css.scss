@@ -1,0 +1,60 @@
+/* http://www.menucool.com */
+
+#banner {
+  margin-left: 17em;
+  margin-right: 260px;
+  height: 136px; /* Make it the same size as your images */
+  background: #fff url('loading.gif') no-repeat 50% 50%;
+  position: relative;
+  padding-bottom: 1em;
+  border-radius: 2px;
+  box-shadow: 0 0 5px #BDC4B4;
+  margin-bottom: 2em;
+  .mc-caption-bg, .mc-caption-bg2 {
+    display: none;
+  }
+}
+
+#banner img {
+  position: absolute;
+  border: none;
+  display: none;
+}
+
+/* ------ built-in navigation bullets wrapper ------*/
+div.navBulletsWrapper {
+  margin: auto;
+  top: 155px;
+  left: 46px;
+  width: 150px;
+  background: none;
+  padding-left: 20px;
+  position: relative;
+  z-index: 5;
+  cursor: pointer;
+}
+
+/* each bullet */
+div.navBulletsWrapper div {
+  width: 11px;
+  height: 11px;
+  background: transparent url('bullet.png') no-repeat 0 0;
+  float: left;
+  overflow: hidden;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 11px; /* distance between each bullet*/
+  _position: relative; /*IE6 hack*/
+}
+
+div.navBulletsWrapper div.active {
+  background-position: 0 -11px;
+}
+
+/* --------- Others ------- */
+#banner {
+  transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+}
